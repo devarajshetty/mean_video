@@ -20,7 +20,18 @@ MongoClient.connect(db,{ useNewUrlParser: true }, function(err, db) {
 // router.get('/videos', (req, res) => {	
 //   res.send('api worksss');
 // });
+MongoClient.connect(db, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("CrudDB");
+  /*Return only the documents with the address "Park Lane 38":*/
+  var query = { address:"Highway 37" };
+  dbo.collection("employees").find({}).toArray(function(err, result) {
+  	console.log(result);
+    if (err) throw err;
 
+    db.close();
+  });
+});
 router.get('/videos', (req, res) => {	
   console.log('get reuqest for all videos');
   MongoClient.connect(db, function(err, db) {
@@ -28,10 +39,10 @@ router.get('/videos', (req, res) => {
   var dbo = db.db("CrudDB");
   /*Return only the documents with the address "Park Lane 38":*/
   var query = { address:"Highway 37" };
-  dbo.collection("employees").find(query).toArray(function(err, result) {
-  	res.send(result);
+  dbo.collection("employees").find({}).toArray(function(err, result) {
+  	console.log(result);
     if (err) throw err;
-    console.log(result);
+
     db.close();
   });
 });
