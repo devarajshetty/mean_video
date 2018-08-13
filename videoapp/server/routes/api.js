@@ -32,6 +32,23 @@ res.json(result);
 });
 });
 
+router.post('/data_add', (req, res) => {	
+MongoClient.connect(db,{ useNewUrlParser: true }, function(err, db) {
+ 
+  var dbo = db.db("CrudDB");
+  
+
+  var title = req.body.name;
+  var title_data = req.body.address;
+  var myobj = { name: title, address:title_data };
+  dbo.collection("employees").insertOne(myobj, function(err, res) {
+    if (err) throw err;
+    console.log("1 document inserted");
+    db.close();
+  });
+});
+});
+
 // router.get('/videos', (req, res) => {	
 //   console.log("result");
 //   Video.find({})
