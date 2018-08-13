@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
-const Video = require('../models/video');
+//const Video = require('../models/video');
 const db = "mongodb://localhost:27017/";
 MongoClient.connect(db,{ useNewUrlParser: true }, function(err, db) {
   
@@ -17,35 +17,39 @@ MongoClient.connect(db,{ useNewUrlParser: true }, function(err, db) {
  		console.error("error"+err);
 }
 });
-// router.get('/videos', (req, res) => {	
-//   res.send('api worksss');
-// });
-MongoClient.connect(db, function(err, db) {
-  if (err) throw err;
-  var dbo = db.db("CrudDB");
-  /*Return only the documents with the address "Park Lane 38":*/
-  var query = { address:"Highway 37" };
-  dbo.collection("employees").find({}).toArray(function(err, result) {
-  	console.log(result);
-    if (err) throw err;
-
-    db.close();
-  });
-});
 router.get('/videos', (req, res) => {	
-  console.log('get reuqest for all videos');
-  MongoClient.connect(db, function(err, db) {
-  if (err) throw err;
+MongoClient.connect(db,{ useNewUrlParser: true }, function(err, db) {
+ 
   var dbo = db.db("CrudDB");
   /*Return only the documents with the address "Park Lane 38":*/
   var query = { address:"Highway 37" };
   dbo.collection("employees").find({}).toArray(function(err, result) {
   	console.log(result);
-    if (err) throw err;
-
+    
+res.json(result);
     db.close();
   });
 });
 });
+
+// router.get('/videos', (req, res) => {	
+//   console.log("result");
+//   Video.find({})
+//   .exec(function(err,employees){
+// if(err){
+// 	console.log("er");
+// }
+// else
+// {
+// 	res.json(employees);
+// }
+//   });
+//   MongoClient.connect(db, function(err, db) {
+  
+//   var dbo = db.db("CrudDB");
+  
+ 
+// });
+// });
 
 module.exports = router;
